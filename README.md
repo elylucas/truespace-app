@@ -4,25 +4,11 @@
 
 A Laravel application for managing organizational assessments. Built with Laravel 10, Livewire 3, Alpine.js, and Tailwind CSS.
 
-## Quick Start
+## Getting Started
 
-See [SETUP.md](SETUP.md) for detailed setup instructions (local or Docker).
-
-**TL;DR:**
-```bash
-cp .env.example .env
-composer install && npm install && npm run build
-php artisan key:generate
-# Create MySQL database "interview_app", then:
-php artisan migrate --seed
-php artisan serve
-```
-
-Login: **admin@example.com** / **password**
-
-## Interview Tasks
-
-See [INTERVIEW_TASKS.md](INTERVIEW_TASKS.md) for the feature tasks to implement.
+1. **[Set up the app](SETUP.md)** — Docker (recommended) or local PHP. Takes about 5 minutes.
+2. **[Read the interview tasks](INTERVIEW_TASKS.md)** — Two features to implement.
+3. Create a branch (`candidate/<your-name>`), do the work, open a PR to `main`.
 
 ## Tech Stack
 

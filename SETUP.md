@@ -1,95 +1,120 @@
 # Setup Guide
 
-Choose one of the two setup paths below.
+## Docker (any OS, ~5 minutes)
 
-## Option A: Local Setup (Herd / Valet / artisan serve)
+Docker packages everything the app needs (PHP, Node, MySQL) so you don't have to install them yourself. This works the same on macOS, Windows, and Linux.
 
-**Prerequisites:** PHP 8.2+, Composer, Node.js 18+, MySQL 8
+### 1. Install Docker
+
+If you don't have Docker yet:
+
+- **macOS:** [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+- **Windows:** [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/) (requires WSL 2 — the installer will guide you)
+- **Linux:** [Docker Engine](https://docs.docker.com/engine/install/) + [Docker Compose plugin](https://docs.docker.com/compose/install/linux/)
+
+After installing, make sure Docker is running (you should see the Docker icon in your system tray/menu bar).
+
+### 2. Clone and start
 
 ```bash
-# 1. Clone the repository
-git clone <repo-url> interview-app
+git clone git@github.com:truespaceco/interview-app.git
 cd interview-app
-
-# 2. Install dependencies
-composer install
-npm install && npm run build
-
-# 3. Configure environment
-cp .env.example .env
-php artisan key:generate
-
-# 4. Create the database
-mysql -u root -e "CREATE DATABASE interview_app"
-
-# 5. Run migrations and seed data
-php artisan migrate --seed
-
-# 6. Start the application
-php artisan serve
-# Or add to Laravel Herd / Valet for a .test domain
+docker compose up --build
 ```
 
-Visit **http://localhost:8000** and log in:
-- **Email:** admin@example.com
-- **Password:** password
+The first run takes 2-3 minutes. It will:
+- Build the container (PHP, Node, Composer)
+- Install dependencies
+- Start MySQL and wait for it to be healthy
+- Run database migrations and seed sample data
+- Start the Vite dev server (for CSS/JS hot-reloading)
+- Start the app
 
-## Option B: Docker
+When you see this, it's ready:
 
-**Prerequisites:** Docker and Docker Compose
-
-```bash
-# 1. Clone the repository
-git clone <repo-url> interview-app
-cd interview-app
-
-# 2. Configure environment
-cp .env.example .env
-
-# 3. Build and start containers
-docker compose up -d --build
-# First run takes a few minutes (installs deps, builds assets, runs migrations)
-
-# 4. Check logs to see when it's ready
-docker compose logs -f app
-# Wait for "Interview App is running!" message
+```
+=========================================
+ Interview App is running!
+ Visit: http://localhost:8000
+ Login: admin@example.com / password
+=========================================
 ```
 
-Visit **http://localhost:8000** and log in:
-- **Email:** admin@example.com
-- **Password:** password
+### 3. Open the app
 
-### Docker Commands
+Visit **http://localhost:8000** in your browser.
+
+Log in with:
+- **Email:** `admin@example.com`
+- **Password:** `password`
+
+### Development workflow
+
+You edit files on your machine normally — the Docker container sees your changes through a volume mount.
+
+- **PHP and Blade templates** (controllers, models, views): Edit the file, refresh the browser. Changes show up immediately.
+- **CSS and JavaScript** (`resources/css/`, `resources/js/`): The Vite dev server watches for changes and hot-reloads them in the browser automatically.
+- **New migrations**: Run them inside the container:
+  ```bash
+  docker compose exec app php artisan migrate
+  ```
+- **New packages**:
+  ```bash
+  docker compose exec app npm install some-package
+  docker compose exec app composer require some/package
+  ```
+- **Any artisan command**: Prefix with `docker compose exec app`:
+  ```bash
+  docker compose exec app php artisan tinker
+  docker compose exec app php artisan route:list
+  ```
+
+### Stopping and starting
 
 ```bash
-# Stop containers
+# Stop the app (Ctrl+C if running in foreground, or:)
 docker compose down
 
-# Reset database (wipe and re-seed)
+# Start it again (no rebuild needed after the first time)
+docker compose up
+
+# Reset the database to its original state
 docker compose exec app php artisan migrate:fresh --seed
-
-# View logs
-docker compose logs -f app
-
-# Shell into the app container
-docker compose exec app bash
 ```
 
-## Seed Data
+### Running in the background
 
-The seeder creates:
+```bash
+docker compose up -d        # Start in background
+docker compose logs -f app  # Watch logs (Ctrl+C to stop watching — app keeps running)
+docker compose down          # Stop
+```
+
+---
+
+## What's in the app
+
+The seeder creates sample data so you have something to work with immediately:
 
 - **3 organizations:** Acme Corp, Globex Industries, Initech Solutions
-- **13 users** spread across organizations (admin, managers, members)
-- **3 assessments:**
-  - "Leadership Effectiveness" (active, 6 questions, ~60% completion)
-  - "Team Dynamics Survey" (active, 5 questions, ~40% completion)
-  - "Culture Audit" (draft, 8 questions, no responses)
+- **13 users** across the organizations (admin, managers, members)
+- **3 assessments** with questions and partial response data
+
+---
 
 ## Troubleshooting
 
-**MySQL connection refused:** Make sure MySQL is running. For Docker, check `docker compose ps` to verify the mysql service is healthy.
+**"port 8000 already in use"**
+Something else is using port 8000. Either stop it, or change the port in `docker-compose.yml`:
+```yaml
+ports:
+  - "8080:8000"  # Use localhost:8080 instead
+```
 
-**Assets not loading:** Run `npm run build` (or `npm run dev` for hot-reloading during development).
+**"port 3307 already in use"**
+Same idea — change the MySQL port mapping in `docker-compose.yml` or stop what's using it. This port is only exposed for convenience (e.g., connecting with a database GUI); the app connects to MySQL internally.
 
-**Permission errors (Docker):** The Docker setup runs as root in the container. If you see permission issues with storage/logs, run: `docker compose exec app chmod -R 777 storage bootstrap/cache`
+**Permission errors on storage/logs**
+```bash
+docker compose exec app chmod -R 777 storage bootstrap/cache
+```
