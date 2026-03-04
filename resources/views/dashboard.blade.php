@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-ts-text leading-tight">
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
@@ -9,28 +9,28 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Stat Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl hover:shadow-ts-card transition-shadow duration-200">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500">Total Users</div>
                         <div class="mt-1 text-3xl font-semibold text-gray-900">{{ $totalUsers }}</div>
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl hover:shadow-ts-card transition-shadow duration-200">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500">Assessments</div>
                         <div class="mt-1 text-3xl font-semibold text-gray-900">{{ $totalAssessments }}</div>
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl hover:shadow-ts-card transition-shadow duration-200">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500">Active Assessments</div>
-                        <div class="mt-1 text-3xl font-semibold text-indigo-600">{{ $activeAssessments }}</div>
+                        <div class="mt-1 text-3xl font-semibold text-ts-teal">{{ $activeAssessments }}</div>
                     </div>
                 </div>
 
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl hover:shadow-ts-card transition-shadow duration-200">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500">Total Responses</div>
                         <div class="mt-1 text-3xl font-semibold text-gray-900">{{ $totalResponses }}</div>
@@ -39,7 +39,7 @@
             </div>
 
             <!-- Recent Assessments -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl hover:shadow-ts-card transition-shadow duration-200">
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Assessments</h3>
                     <div class="overflow-x-auto">
@@ -56,7 +56,7 @@
                                 @foreach($recentAssessments as $assessment)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <a href="{{ route('assessments.show', $assessment) }}" class="text-indigo-600 hover:text-indigo-900">
+                                            <a href="{{ route('assessments.show', $assessment) }}" class="text-ts-teal hover:text-ts-blue">
                                                 {{ $assessment->title }}
                                             </a>
                                         </td>

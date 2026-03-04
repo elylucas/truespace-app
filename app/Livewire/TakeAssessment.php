@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Assessment;
 use App\Models\Response;
+use App\Models\UserAssessmentOrder;
 use Livewire\Component;
 
 class TakeAssessment extends Component
@@ -17,9 +18,32 @@ class TakeAssessment extends Component
     public function mount(Assessment $assessment)
     {
         $this->assessment = $assessment;
-        $this->questions = $assessment->questions()->orderBy('sort_order')->get()->toArray();
 
-        // Load existing responses
+        // Fetch or create a persistent random question order for this user + assessment
+        $order = UserAssessmentOrder::firstOrCreate(
+            [
+                'user_id'       => auth()->id(),
+                'assessment_id' => $assessment->id,
+            ],
+            [
+                'question_order' => $assessment->questions()
+                    ->pluck('id')
+                    ->shuffle()
+                    ->values()
+                    ->toArray(),
+            ]
+        );
+
+        // Load all questions keyed by ID, then sort by stored order
+        $questionsById = $assessment->questions()->get()->keyBy('id');
+
+        $this->questions = collect($order->question_order)
+            ->map(fn ($id) => $questionsById->get($id))
+            ->filter()
+            ->values()
+            ->toArray();
+
+        // Load existing responses (unchanged — still keyed by question_id)
         $existingResponses = Response::where('assessment_id', $assessment->id)
             ->where('user_id', auth()->id())
             ->pluck('value', 'question_id')

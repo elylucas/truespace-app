@@ -11,7 +11,7 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">Assessment Complete!</h3>
                 <p class="text-gray-500 mb-6">Your responses have been saved successfully.</p>
                 <a href="{{ route('assessments.show', $assessment) }}"
-                   class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                   class="inline-flex items-center px-4 py-2 bg-ts-teal border border-transparent rounded-md font-normal text-xs text-white uppercase tracking-widest">
                     Back to Assessment
                 </a>
             </div>
@@ -24,7 +24,7 @@
                 <span>{{ $this->progress }}% Complete</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-2.5">
-                <div class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300"
+                <div class="bg-ts-teal h-2.5 rounded-full transition-all duration-300"
                      style="width: {{ $this->progress }}%"></div>
             </div>
         </div>
@@ -34,8 +34,8 @@
             @foreach($questions as $index => $q)
                 <button wire:click="goToStep({{ $index }})"
                     class="w-3 h-3 rounded-full transition-colors duration-200
-                        @if($index === $currentStep) bg-indigo-600
-                        @elseif(isset($answers[$q['id']]) && $answers[$q['id']] !== '') bg-indigo-300
+                        @if($index === $currentStep) bg-ts-teal
+                        @elseif(isset($answers[$q['id']]) && $answers[$q['id']] !== '') bg-ts-blue
                         @else bg-gray-300 @endif"
                     title="Question {{ $index + 1 }}">
                 </button>
@@ -65,7 +65,7 @@
                         <textarea
                             wire:model="answers.{{ $question['id'] }}"
                             rows="4"
-                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                            class="block w-full rounded-md border-gray-300 shadow-sm focus:border-ts-teal focus:ring-ts-teal"
                             placeholder="Type your answer here..."></textarea>
 
                     @elseif($question['type'] === 'number')
@@ -77,8 +77,8 @@
                                         wire:click="$set('answers.{{ $question['id'] }}', '{{ $i }}')"
                                         class="w-10 h-10 rounded-full border-2 text-sm font-medium transition-colors duration-200
                                             {{ ($answers[$question['id']] ?? '') == $i
-                                                ? 'border-indigo-600 bg-indigo-600 text-white'
-                                                : 'border-gray-300 text-gray-700 hover:border-indigo-400' }}">
+                                                ? 'border-ts-teal bg-ts-teal text-white'
+                                                : 'border-gray-300 text-gray-700 hover:border-ts-blue' }}">
                                         {{ $i }}
                                     </button>
                                 @endfor
@@ -90,12 +90,12 @@
                             @foreach($question['options'] ?? [] as $option)
                                 <label class="flex items-center p-3 border rounded-lg cursor-pointer transition-colors duration-200
                                     {{ ($answers[$question['id']] ?? '') === $option
-                                        ? 'border-indigo-600 bg-indigo-50'
-                                        : 'border-gray-200 hover:border-indigo-300' }}">
+                                        ? 'border-ts-teal bg-cyan-50'
+                                        : 'border-gray-200 hover:border-ts-blue' }}">
                                     <input type="radio"
                                            wire:model="answers.{{ $question['id'] }}"
                                            value="{{ $option }}"
-                                           class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                           class="h-4 w-4 text-ts-teal focus:ring-ts-teal border-gray-300">
                                     <span class="ml-3 text-sm text-gray-700">{{ $option }}</span>
                                 </label>
                             @endforeach
@@ -111,18 +111,18 @@
                 <div class="flex items-center justify-between pt-4 border-t border-gray-200">
                     <button wire:click="previousStep"
                         @if($currentStep === 0) disabled @endif
-                        class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+                        class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md font-normal text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
                         Previous
                     </button>
 
                     @if($currentStep === count($questions) - 1)
                         <button wire:click="submit"
-                            class="inline-flex items-center px-6 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700">
+                            class="inline-flex items-center px-6 py-2 bg-green-600 border border-transparent rounded-md font-normal text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700">
                             Submit Assessment
                         </button>
                     @else
                         <button wire:click="nextStep"
-                            class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                            class="inline-flex items-center px-4 py-2 bg-ts-teal border border-transparent rounded-md font-normal text-xs text-white uppercase tracking-widest">
                             Next
                         </button>
                     @endif

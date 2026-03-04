@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-9 w-auto" />
                     </a>
                 </div>
 
@@ -18,9 +18,11 @@
                     <x-nav-link :href="route('assessments.index')" :active="request()->routeIs('assessments.*')">
                         {{ __('Assessments') }}
                     </x-nav-link>
+                    @can('admin')
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                         {{ __('Users') }}
                     </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -79,9 +81,11 @@
             <x-responsive-nav-link :href="route('assessments.index')" :active="request()->routeIs('assessments.*')">
                 {{ __('Assessments') }}
             </x-responsive-nav-link>
+            @can('admin')
             <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                 {{ __('Users') }}
             </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

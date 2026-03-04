@@ -11,10 +11,12 @@
                     @else bg-gray-100 text-gray-800 @endif">
                     {{ ucfirst($assessment->status) }}
                 </span>
+                @can('manage-assessments')
                 <a href="{{ route('assessments.edit', $assessment) }}"
-                   class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50">
+                   class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-normal text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50">
                     Edit
                 </a>
+                @endcan
             </div>
         </div>
     </x-slot>
@@ -68,7 +70,7 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="text-sm font-medium text-gray-500">Completion Rate</div>
-                        <div class="mt-1 text-2xl font-semibold text-indigo-600">{{ $completionRate }}%</div>
+                        <div class="mt-1 text-2xl font-semibold text-ts-teal">{{ $completionRate }}%</div>
                     </div>
                 </div>
             </div>
@@ -77,7 +79,7 @@
             @if($assessment->status === 'active')
                 <div class="mb-6" x-data="{ showConfirm: false }">
                     <button @click="showConfirm = true"
-                        class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-semibold text-sm text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                        class="inline-flex items-center px-6 py-3 bg-ts-teal border border-transparent rounded-md font-normal text-sm text-white uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-ts-teal focus:ring-offset-2 transition ease-in-out duration-150">
                         Take Assessment
                     </button>
 
@@ -109,11 +111,11 @@
                                 </div>
                                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                     <a href="{{ route('assessments.take', $assessment) }}"
-                                       class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                       class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-ts-teal text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ts-teal sm:ml-3 sm:w-auto sm:text-sm">
                                         Begin
                                     </a>
                                     <button @click="showConfirm = false" type="button"
-                                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ts-teal sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                                         Cancel
                                     </button>
                                 </div>

@@ -18,7 +18,7 @@
                             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
                             <input type="text" name="title" id="title"
                                    value="{{ old('title', $assessment->title) }}"
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ts-teal focus:ring-ts-teal">
                             @error('title')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -27,7 +27,7 @@
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <textarea name="description" id="description" rows="3"
-                                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('description', $assessment->description) }}</textarea>
+                                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ts-teal focus:ring-ts-teal">{{ old('description', $assessment->description) }}</textarea>
                             @error('description')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -36,7 +36,7 @@
                         <div class="mb-6">
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                             <select name="status" id="status"
-                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-ts-teal focus:ring-ts-teal">
                                 <option value="draft" @selected(old('status', $assessment->status) === 'draft')>Draft</option>
                                 <option value="active" @selected(old('status', $assessment->status) === 'active')>Active</option>
                                 <option value="closed" @selected(old('status', $assessment->status) === 'closed')>Closed</option>
@@ -51,7 +51,7 @@
                                 Cancel
                             </a>
                             <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                                    class="inline-flex items-center px-4 py-2 bg-ts-teal border border-transparent rounded-md font-normal text-xs text-white uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-ts-teal focus:ring-offset-2 transition ease-in-out duration-150">
                                 Save Changes
                             </button>
                         </div>
