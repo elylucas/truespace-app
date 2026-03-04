@@ -11,7 +11,6 @@ class AskTrudy extends Component
 {
     public array $messages = [];
     public string $input = '';
-    public bool $loading = false;
 
     public function mount(): void
     {
@@ -55,7 +54,6 @@ class AskTrudy extends Component
         ]);
 
         $this->messages[] = ['role' => 'user', 'content' => $text];
-        $this->loading = true;
 
         // Build OpenAI message list: system + full history
         $openAiMessages = array_merge(
@@ -77,7 +75,6 @@ class AskTrudy extends Component
         ]);
 
         $this->messages[] = ['role' => 'assistant', 'content' => $reply];
-        $this->loading = false;
     }
 
     private function buildSystemPrompt(): string
@@ -124,7 +121,6 @@ PROMPT;
 
     public function render()
     {
-        return view('livewire.ask-trudy')
-            ->layout('layouts.app', ['header' => 'Ask Trudy']);
+        return view('livewire.ask-trudy');
     }
 }

@@ -4,7 +4,6 @@ use App\Http\Controllers\AssessmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Livewire\AskTrudy;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,7 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/assessments/{assessment}/take', [AssessmentController::class, 'take'])->name('assessments.take');
 
     Route::get('/users', [UserController::class, 'index'])->middleware('can:admin')->name('users.index');
-    Route::get('/ask-trudy', AskTrudy::class)->name('ask-trudy');
+    Route::get('/ask-trudy', fn () => view('ask-trudy'))->name('ask-trudy');
 });
 
 Route::middleware('auth')->group(function () {
