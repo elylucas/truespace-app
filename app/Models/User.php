@@ -39,6 +39,11 @@ class User extends Authenticatable
         return $this->hasMany(Response::class);
     }
 
+    public function assessmentOrders()
+    {
+        return $this->hasMany(UserAssessmentOrder::class);
+    }
+
     public function getIsAdminAttribute(): bool
     {
         return $this->role === 'admin';

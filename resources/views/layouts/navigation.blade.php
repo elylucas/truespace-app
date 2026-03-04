@@ -18,9 +18,11 @@
                     <x-nav-link :href="route('assessments.index')" :active="request()->routeIs('assessments.*')">
                         {{ __('Assessments') }}
                     </x-nav-link>
+                    @can('admin')
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                         {{ __('Users') }}
                     </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -79,9 +81,11 @@
             <x-responsive-nav-link :href="route('assessments.index')" :active="request()->routeIs('assessments.*')">
                 {{ __('Assessments') }}
             </x-responsive-nav-link>
+            @can('admin')
             <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                 {{ __('Users') }}
             </x-responsive-nav-link>
+            @endcan
         </div>
 
         <!-- Responsive Settings Options -->

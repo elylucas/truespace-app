@@ -15,11 +15,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/assessments', [AssessmentController::class, 'index'])->name('assessments.index');
     Route::get('/assessments/{assessment}', [AssessmentController::class, 'show'])->name('assessments.show');
-    Route::get('/assessments/{assessment}/edit', [AssessmentController::class, 'edit'])->name('assessments.edit');
-    Route::put('/assessments/{assessment}', [AssessmentController::class, 'update'])->name('assessments.update');
+    Route::get('/assessments/{assessment}/edit', [AssessmentController::class, 'edit'])->middleware('can:manage-assessments')->name('assessments.edit');
+    Route::put('/assessments/{assessment}', [AssessmentController::class, 'update'])->middleware('can:manage-assessments')->name('assessments.update');
     Route::get('/assessments/{assessment}/take', [AssessmentController::class, 'take'])->name('assessments.take');
 
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users', [UserController::class, 'index'])->middleware('can:admin')->name('users.index');
 });
 
 Route::middleware('auth')->group(function () {

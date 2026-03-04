@@ -64,7 +64,9 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                                             <a href="{{ route('assessments.show', $assessment) }}" class="text-ts-teal hover:text-ts-blue mr-3">View</a>
+                                            @can('manage-assessments')
                                             <a href="{{ route('assessments.edit', $assessment) }}" class="text-gray-600 hover:text-gray-900">Edit</a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach
