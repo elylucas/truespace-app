@@ -15,7 +15,7 @@
                         <div>
                             <label for="status-filter" class="sr-only">Filter by status</label>
                             <select id="status-filter" x-model="filter"
-                                class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                                class="rounded-md border-gray-300 shadow-sm focus:border-ts-teal focus:ring-ts-teal text-sm">
                                 <option value="all">All Statuses</option>
                                 <option value="active">Active</option>
                                 <option value="draft">Draft</option>
@@ -41,7 +41,7 @@
                                 @foreach($assessments as $assessment)
                                     <tr x-show="filter === 'all' || filter === '{{ $assessment->status }}'">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <a href="{{ route('assessments.show', $assessment) }}" class="text-indigo-600 hover:text-indigo-900 font-medium">
+                                            <a href="{{ route('assessments.show', $assessment) }}" class="text-ts-teal hover:text-ts-blue font-medium">
                                                 {{ $assessment->title }}
                                             </a>
                                         </td>
@@ -63,7 +63,7 @@
                                             {{ $assessment->responses_count }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                            <a href="{{ route('assessments.show', $assessment) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">View</a>
+                                            <a href="{{ route('assessments.show', $assessment) }}" class="text-ts-teal hover:text-ts-blue mr-3">View</a>
                                             <a href="{{ route('assessments.edit', $assessment) }}" class="text-gray-600 hover:text-gray-900">Edit</a>
                                         </td>
                                     </tr>
