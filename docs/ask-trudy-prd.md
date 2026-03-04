@@ -91,7 +91,8 @@ Full conversation history is sent to OpenAI on every message as the `messages` a
 | `database/migrations/..._create_chat_messages_table.php` | Creates `chat_messages` table |
 | `app/Models/ChatMessage.php` | Eloquent model; `fillable`, `belongsTo(User)` |
 | `app/Livewire/AskTrudy.php` | Livewire component — loads history, sends messages, builds system prompt |
-| `resources/views/livewire/ask-trudy.blade.php` | Chat UI with TrueSpace styling |
+| `resources/views/livewire/ask-trudy.blade.php` | Chat widget HTML (no layout wrapper — rendered as an embedded component) |
+| `resources/views/ask-trudy.blade.php` | Page wrapper — `<x-app-layout>` + `<livewire:ask-trudy />` |
 | `docs/ask-trudy-prd.md` | This document |
 | `config/openai.php` | Published by `openai-php/laravel` |
 
@@ -101,9 +102,13 @@ Full conversation history is sent to OpenAI on every message as the `messages` a
 |---|---|
 | `composer.json` / `composer.lock` | Added `openai-php/laravel` |
 | `app/Models/User.php` | Added `chatMessages()` hasMany relationship |
-| `routes/web.php` | Added `GET /ask-trudy` route |
+| `routes/web.php` | Added `GET /ask-trudy` as a view closure returning `ask-trudy` page view |
 | `resources/views/layouts/navigation.blade.php` | Added "Ask Trudy" nav link (desktop + mobile) |
 | `.env.example` | Added `OPENAI_API_KEY=` stub |
+
+### Routing Note
+
+Livewire 3 full-page components (route → Livewire class directly) require a layout at `components/layouts/app.blade.php`, which this project does not use. Instead, the route returns a standard Blade view (`ask-trudy.blade.php`) that wraps the component with `<x-app-layout>` — consistent with how all other routes in this project work.
 
 ---
 
