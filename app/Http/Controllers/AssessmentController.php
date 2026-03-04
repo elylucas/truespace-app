@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assessment;
 use App\Models\Response;
+use App\Models\UserAssessmentOrder;
 use Illuminate\Http\Request;
 
 class AssessmentController extends Controller
@@ -41,6 +42,21 @@ class AssessmentController extends Controller
         }
 
         $assessment->load(['questions', 'organization', 'responses']);
+
+        // Reorder questions to match the user's personal randomized order if one exists
+        $userOrder = UserAssessmentOrder::where('user_id', auth()->id())
+            ->where('assessment_id', $assessment->id)
+            ->first();
+
+        if ($userOrder) {
+            $questionsById = $assessment->questions->keyBy('id');
+            $assessment->setRelation('questions',
+                collect($userOrder->question_order)
+                    ->map(fn ($id) => $questionsById->get($id))
+                    ->filter()
+                    ->values()
+            );
+        }
 
         $totalQuestions = $assessment->questions->count();
         $uniqueRespondents = $assessment->responses->unique('user_id')->count();
