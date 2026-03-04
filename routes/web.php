@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/assessments/{assessment}/take', [AssessmentController::class, 'take'])->name('assessments.take');
 
     Route::get('/users', [UserController::class, 'index'])->middleware('can:admin')->name('users.index');
+    Route::get('/ask-trudy', fn () => view('ask-trudy'))->name('ask-trudy');
 });
 
 Route::middleware('auth')->group(function () {

@@ -44,6 +44,11 @@ class User extends Authenticatable
         return $this->hasMany(UserAssessmentOrder::class);
     }
 
+    public function chatMessages()
+    {
+        return $this->hasMany(ChatMessage::class)->orderBy('created_at');
+    }
+
     public function getIsAdminAttribute(): bool
     {
         return $this->role === 'admin';

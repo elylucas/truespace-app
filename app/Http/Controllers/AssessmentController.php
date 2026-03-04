@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assessment;
+use App\Models\Response;
 use App\Models\UserAssessmentOrder;
 use Illuminate\Http\Request;
 
@@ -10,16 +11,36 @@ class AssessmentController extends Controller
 {
     public function index()
     {
-        $assessments = Assessment::with('organization')
+        $query = Assessment::with('organization')
             ->withCount('questions', 'responses')
-            ->latest()
-            ->get();
+            ->latest();
 
-        return view('assessments.index', compact('assessments'));
+        if (auth()->user()->role === 'member') {
+            $query->where('status', 'active');
+        }
+
+        $assessments = $query->get();
+
+        // For members, fetch how many questions they've answered per assessment
+        $userAnswerCounts = [];
+        if (auth()->user()->role === 'member') {
+            $userAnswerCounts = Response::where('user_id', auth()->id())
+                ->whereIn('assessment_id', $assessments->pluck('id'))
+                ->selectRaw('assessment_id, count(*) as count')
+                ->groupBy('assessment_id')
+                ->pluck('count', 'assessment_id')
+                ->toArray();
+        }
+
+        return view('assessments.index', compact('assessments', 'userAnswerCounts'));
     }
 
     public function show(Assessment $assessment)
     {
+        if (auth()->user()->role === 'member' && $assessment->status !== 'active') {
+            abort(404);
+        }
+
         $assessment->load(['questions', 'organization', 'responses']);
 
         // Reorder questions to match the user's personal randomized order if one exists

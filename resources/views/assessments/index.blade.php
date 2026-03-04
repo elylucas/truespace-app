@@ -12,6 +12,7 @@
                     <!-- Filter Dropdown -->
                     <div class="mb-6 flex items-center justify-between">
                         <h3 class="text-lg font-semibold text-gray-900">All Assessments</h3>
+                        @can('manage-assessments')
                         <div>
                             <label for="status-filter" class="sr-only">Filter by status</label>
                             <select id="status-filter" x-model="filter"
@@ -22,6 +23,7 @@
                                 <option value="closed">Closed</option>
                             </select>
                         </div>
+                        @endcan
                     </div>
 
                     <!-- Assessments Table -->
@@ -31,9 +33,15 @@
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization</th>
+                                    @can('manage-assessments')
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    @endcan
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Questions</th>
+                                    @can('manage-assessments')
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Responses</th>
+                                    @else
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Your Progress</th>
+                                    @endcan
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
@@ -48,6 +56,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $assessment->organization->name }}
                                         </td>
+                                        @can('manage-assessments')
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                                 @if($assessment->status === 'active') bg-green-100 text-green-800
@@ -56,12 +65,26 @@
                                                 {{ ucfirst($assessment->status) }}
                                             </span>
                                         </td>
+                                        @endcan
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $assessment->questions_count }}
                                         </td>
+                                        @can('manage-assessments')
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {{ $assessment->responses_count }}
                                         </td>
+                                        @else
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            @php $answered = $userAnswerCounts[$assessment->id] ?? 0; @endphp
+                                            @if($answered > 0)
+                                                <span class="@if($answered >= $assessment->questions_count) text-green-600 @else text-yellow-600 @endif font-medium">
+                                                    {{ $answered }} / {{ $assessment->questions_count }} answered
+                                                </span>
+                                            @else
+                                                <span class="text-gray-400">Not started</span>
+                                            @endif
+                                        </td>
+                                        @endcan
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                                             <a href="{{ route('assessments.show', $assessment) }}" class="text-ts-teal hover:text-ts-blue mr-3">View</a>
                                             @can('manage-assessments')

@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('assessments.index')" :active="request()->routeIs('assessments.*')">
                         {{ __('Assessments') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('ask-trudy')" :active="request()->routeIs('ask-trudy')">
+                        {{ __('Ask Trudy') }}
+                    </x-nav-link>
                     @can('admin')
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                         {{ __('Users') }}
@@ -80,6 +83,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('assessments.index')" :active="request()->routeIs('assessments.*')">
                 {{ __('Assessments') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('ask-trudy')" :active="request()->routeIs('ask-trudy')">
+                {{ __('Ask Trudy') }}
             </x-responsive-nav-link>
             @can('admin')
             <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
