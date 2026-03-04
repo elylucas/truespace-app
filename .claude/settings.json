@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.truespace.com)",
+      "Bash(php artisan make:migration create_user_assessment_orders_table)"
+    ]
+  }
+}
